@@ -1,0 +1,14 @@
+{
+	"excludePrivate": true,
+	"excludeProtected": true,
+	"excludeInternal": true,
+	"entryPoints": [
+		"./src/index.ts"
+	],
+	"out": "docs",
+	"readme": "./README.md",
+	"hideGenerator": true,
+	"disableSources": true,
+	"darkHighlightTheme": "github-dark",
+	"lightHighlightTheme": "github-light"
+}

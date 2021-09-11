@@ -3,10 +3,16 @@ import { CmcdShards } from './CmcdShards';
 
 export type DeepPartial<T> = T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
 
+/**
+ * Generate a random v4 UUID
+ */
 export function uuid(): string {
   return (`${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`).replace(/[018]/g, (c: any) => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
 }
 
+/**
+ * Convert the CMCD data objects to string
+ */
 export function serialize(obj: any) {
   try {
     if (!obj) {
@@ -54,6 +60,9 @@ export function serialize(obj: any) {
   }
 }
 
+/**
+ * Flatten a CMCD object into a single tier data object
+ */
 export function flatten(cmcd: DeepPartial<Cmcd>) {
   let payload = {};
 
@@ -66,6 +75,9 @@ export function flatten(cmcd: DeepPartial<Cmcd>) {
   return payload;
 }
 
+/**
+ * Convert a CMCD data object to request headers
+ */
 export function toHeaders(cmcd: DeepPartial<Cmcd>) {
   const headers = {};
 
@@ -78,10 +90,16 @@ export function toHeaders(cmcd: DeepPartial<Cmcd>) {
   return headers;
 }
 
+/**
+ * Convert a CMCD data object to query args
+ */
 export function toQuery(cmcd: DeepPartial<Cmcd>) {
   return `CMCD=${encodeURIComponent(serialize(flatten(cmcd)))}`;
 }
 
+/**
+ * Convert a CMCD data object to JSON
+ */
 export function toJson(cmcd: DeepPartial<Cmcd>) {
   return JSON.stringify(flatten(cmcd));
 };
