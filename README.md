@@ -1,4 +1,4 @@
-# cmcd
+# cmcd-ts
 CMCD (Common Media Client Data) Typescript definitions.
 
 ## Links
