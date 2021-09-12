@@ -1,5 +1,4 @@
-import type { Cmcd } from './Cmcd';
-import { CmcdShards } from './CmcdShards';
+import { Cmcd } from './Cmcd.js';
 
 export type DeepPartial<T> = T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
 
@@ -66,10 +65,12 @@ export function serialize(obj: any) {
 export function flatten(cmcd: DeepPartial<Cmcd>) {
   let payload = {};
 
-  Object.values(CmcdShards).forEach(shard => {
-    if (cmcd[shard]) {
-      payload = { ...payload, ...cmcd[shard] };
-    }
+  Object.values(Cmcd.SHARDS).forEach(props => {
+    props.forEach(prop => {
+      if (cmcd[prop] != null) {
+        payload[prop] = cmcd[prop];
+      }
+    });
   });
 
   return payload;
@@ -81,10 +82,12 @@ export function flatten(cmcd: DeepPartial<Cmcd>) {
 export function toHeaders(cmcd: DeepPartial<Cmcd>) {
   const headers = {};
 
-  Object.values(CmcdShards).forEach(shard => {
-    if (cmcd[shard]) {
-      headers[`cmcd-${shard}`] = serialize(cmcd[shard]);
-    }
+  Object.entries(Cmcd.SHARDS).forEach(([shard, props]) => {
+    props.forEach(prop => {
+      if (cmcd[prop] != null) {
+        headers[`cmcd-${shard}`] = serialize(cmcd[prop]);
+      }
+    });
   });
 
   return headers;
