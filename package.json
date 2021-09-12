@@ -1,6 +1,6 @@
 {
   "name": "cmcd-ts",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "CMCD Typescript Library",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",
@@ -8,7 +8,8 @@
   "scripts": {
     "test": "jest",
     "build": "tsc",
-    "docs": "typedoc"
+    "docs": "typedoc",
+    "prepublishOnly": "npm run build"
   },
   "author": "Casey Occhialini",
   "license": "ISC",

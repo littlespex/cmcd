@@ -1,17 +1,18 @@
-name: Publish Github NPM package
+name: Release NPM package and documentation
 
 on:
   release:
     types: [released]
 
 jobs:
-  publish:
+  release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v2
         with:
           node-version: 16
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Cache dependencies
         uses: actions/cache@v2
@@ -24,10 +25,10 @@ jobs:
       - name: Install
         run: npm ci
 
-      # - name: Publish
-      #   run: npm publish
-      #   env:
-      #     NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Publish
+        run: npm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Build Docs
         run: npm run docs
