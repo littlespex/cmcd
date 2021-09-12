@@ -1,6 +1,6 @@
 {
   "name": "cmcd-ts",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "CMCD Typescript Library",
   "main": "dist/index.js",
   "types": "dist/types/index.d.ts",

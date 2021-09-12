@@ -7,36 +7,50 @@ npm i cmcd-ts
 ```
 
 ## Usage
+The top level `Cmcd` object contains references to all the CMCD data properties. Properties that are not filled out, or have `null` or `undefined` values, will not be serialized.
+
 ```typescript
-import { Cmcd, toHeaders, toJson, toQuery } from 'cmcd-ts';
+import {
+  Cmcd,
+  CmcdObjectType,
+  CmcdStreamingFormat,
+  CmcdStreamType,
+  toHeaders,
+  toJson,
+  toQuery
+} from 'cmcd-ts';
 
 const data = new Cmcd();
-data.session.sid = '9f7f349b-baba-43d7-bbe7-b0dc8a65af0d';
-data.session.cid = '3b943dc3-167b-47d6-adf7-3c06daa96d0b';
-data.request.su = false;
-data.request.nrr = '0-99';
-data.request.mtp = 10000;
-data.status.bs = true;
-data.object.br = 200;
+data.sid = '9f7f349b-baba-43d7-bbe7-b0dc8a65af0d';
+data.sf = CmcdStreamingFormat.DASH;
+data.st = CmcdStreamType.VOD;
+data.su = false;
+data.mtp = 10000;
+data.bs = true;
+data.br = 200;
+data.ot = CmcdObjectType.MANIFEST;
 
-const query = toQuery(data));
+const query = toQuery(data);
+console.log(query);
 /* 
-'CMCD=br%3D200%2Cbs%2Ccid%3D%223b943dc3-167b-47d6-adf7-3c06daa96d0b%22%2Cmtp%3D10000%2Cnrr%3D%220-99%22%2Csid%3D%229f7f349b-baba-43d7-bbe7-b0dc8a65af0d%22'
+'CMCD=br%3D200%2Cbs%2Cmtp%3D10000%2Cot%3Dm%2Csf%3Dd%2Csid%3D%229f7f349b-baba-43d7-bbe7-b0dc8a65af0d%22%2Cst%3Dv'
 */
 
-const headers = toHeaders(data));
+const headers = toHeaders(data);
+console.log(headers);
 /*
 {
-  'cmcd-object': 'br=200',
-  'cmcd-request': 'mtp=10000,nrr="0-99"',
-  'cmcd-session': 'cid="3b943dc3-167b-47d6-adf7-3c06daa96d0b",sid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d"',
+  'cmcd-request': 'mtp=10000',
+  'cmcd-object': 'br=200,ot=m',
+  'cmcd-session': 'sf=d,sid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",st=v',
   'cmcd-status': 'bs',
 }
 */
 
-const json = toJson(data));
+const json = toJson(data);
+console.log(json);
 /*
-'{"mtp":10000,"nrr":"0-99","su":false,"br":200,"cid":"3b943dc3-167b-47d6-adf7-3c06daa96d0b","sid":"9f7f349b-baba-43d7-bbe7-b0dc8a65af0d","bs":true}'
+'{"mtp":10000,"su":false,"br":200,"ot":"m","sf":"d","sid":"9f7f349b-baba-43d7-bbe7-b0dc8a65af0d","st":"v","bs":true}'
 */
 ```
 
