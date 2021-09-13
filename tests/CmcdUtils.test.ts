@@ -1,5 +1,5 @@
-import { Cmcd } from './Cmcd.js';
-import { toHeaders, toJson, toQuery } from './CmcdUtils.js';
+import { Cmcd } from '../src/Cmcd';
+import { toHeaders, toJson, toQuery } from '../src/CmcdUtils';
 
 const data = new Cmcd();
 data.sid = 'session-id';
