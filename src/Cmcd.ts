@@ -1,18 +1,11 @@
-import { CmcdObjectType } from './CmcdObjectType.js';
-import { CmcdStreamingFormat } from './CmcdStreamingFormat.js';
-import { CmcdStreamType } from './CmcdStreamType.js';
+import { CmcdObjectType } from './CmcdObjectType';
+import { CmcdStreamingFormat } from './CmcdStreamingFormat';
+import { CmcdStreamType } from './CmcdStreamType';
 
 /**
  * CMCD
  */
 export class Cmcd {
-
-  static SHARDS: Record<string, string[]> = {
-    request: ['su', 'nrr', 'nor', 'mtp', 'dl'],
-    object: ['su', 'nrr', 'nor', 'mtp', 'dl'],
-    status: ['bs', 'rtp'],
-    session: ['cid', 'pr', 'sf', 'sid', 'st', 'v'],
-  };
 
   //////////////////
   // CMCD Request //

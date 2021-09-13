@@ -1,4 +1,5 @@
-import { Cmcd } from './Cmcd.js';
+import { Cmcd } from './Cmcd';
+import { CmcdShards } from './CmcdShards';
 
 export type DeepPartial<T> = T extends object ? { [K in keyof T]?: DeepPartial<T[K]> } : T;
 
@@ -60,34 +61,15 @@ export function serialize(obj: any) {
 }
 
 /**
- * Flatten a CMCD object into a single tier data object
- */
-export function flatten(cmcd: DeepPartial<Cmcd>) {
-  let payload = {};
-
-  Object.values(Cmcd.SHARDS).forEach(props => {
-    props.forEach(prop => {
-      if (cmcd[prop] != null) {
-        payload[prop] = cmcd[prop];
-      }
-    });
-  });
-
-  return payload;
-}
-
-/**
  * Convert a CMCD data object to request headers
  */
 export function toHeaders(cmcd: DeepPartial<Cmcd>) {
   const headers = {};
 
-  Object.entries(Cmcd.SHARDS).forEach(([shard, props]) => {
-    props.forEach(prop => {
-      if (cmcd[prop] != null) {
-        headers[`cmcd-${shard}`] = serialize(cmcd[prop]);
-      }
-    });
+  const entries = Object.entries(cmcd);
+  Object.entries(CmcdShards).forEach(([shard, props]) => {
+    const shards = entries.filter(entry => props.includes(entry[0]));
+    headers[`cmcd-${shard}`] = serialize(Object.fromEntries(shards));
   });
 
   return headers;
@@ -97,12 +79,12 @@ export function toHeaders(cmcd: DeepPartial<Cmcd>) {
  * Convert a CMCD data object to query args
  */
 export function toQuery(cmcd: DeepPartial<Cmcd>) {
-  return `CMCD=${encodeURIComponent(serialize(flatten(cmcd)))}`;
+  return `CMCD=${encodeURIComponent(serialize(cmcd))}`;
 }
 
 /**
  * Convert a CMCD data object to JSON
  */
 export function toJson(cmcd: DeepPartial<Cmcd>) {
-  return JSON.stringify(flatten(cmcd));
+  return JSON.stringify(cmcd);
 };
