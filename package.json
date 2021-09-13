@@ -2,24 +2,31 @@
   "name": "cmcd-ts",
   "version": "0.3.0",
   "description": "CMCD Typescript Library",
-  "main": "dist/index.js",
+  "main": "dist/cmcd.min.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
   "files": [
-    "dist/**/*"
+    "dist/cmcd*",
+    "dist/types/**/*.d.ts"
   ],
   "scripts": {
     "test": "jest",
     "build": "tsc",
+    "bundle": "rollup dist/types/index.js -o dist/cmcd.js -m",
+    "minify": "terser dist/cmcd.js -c -m --source-map url=cmcd.min.js.map -o dist/cmcd.min.js",
     "docs": "typedoc",
-    "prepublishOnly": "npm run build"
+    "release": "npm run build && npm run bundle && npm run minify",
+    "prepublishOnly": "npm run release"
   },
   "author": "Casey Occhialini",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "^27.0.1",
     "jest": "^27.1.0",
+    "rollup": "^2.56.3",
+    "terser": "^5.8.0",
     "ts-jest": "^27.0.5",
+    "typedoc": "^0.22.3",
     "typescript": "^4.4.2"
   },
   "jest": {
@@ -30,8 +37,5 @@
     "transform": {
       "^.+\\.tsx?$": "ts-jest"
     }
-  },
-  "dependencies": {
-    "typedoc": "^0.22.2"
   }
 }

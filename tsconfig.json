@@ -1,11 +1,11 @@
 {
   "compilerOptions": {
     "declaration": true,
-    "declarationDir": "dist/types",
     "esModuleInterop": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "outDir": "dist",
+    "outDir": "dist/types",
+    "sourceMap": true,
     "target": "esnext"
   },
   "include": [
