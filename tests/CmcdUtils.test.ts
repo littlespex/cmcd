@@ -1,5 +1,9 @@
+import crypto from 'crypto';
 import { Cmcd } from '../src/Cmcd';
-import { toHeaders, toJson, toQuery } from '../src/CmcdUtils';
+import { serialize, toHeaders, toJson, toQuery, uuid } from '../src/CmcdUtils';
+
+// @ts-ignore
+global.crypto = crypto.webcrypto;
 
 const data = new Cmcd();
 data.sid = 'session-id';
@@ -11,6 +15,8 @@ data.d = 324.69;
 data.mtp = 10049;
 data.bs = true;
 data.br = 200;
+data.v = 1;
+data.pr = 1;
 
 // custom data
 data['com.example-hello'] = 'world';
@@ -18,6 +24,25 @@ data['com.example-testing'] = 1234;
 data['com.example-exists'] = true;
 data['com.example-notExists'] = false;
 data['com.example-token'] = Symbol('s');
+
+describe('UUID generation', () => {
+  const regex = /^[A-F\d]{8}-[A-F\d]{4}-4[A-F\d]{3}-[89AB][A-F\d]{3}-[A-F\d]{12}$/i;
+  const id = uuid();
+
+  test('format', () => {
+    expect(regex.test(id)).toBe(true);
+  });
+
+  test('unique', () => {
+    expect(uuid() == id).toBe(false);
+  });
+});
+
+describe('serialize', () => {
+  test('empty', () => {
+    expect(serialize({})).toEqual('');
+  });
+});
 
 describe('Query serialization', () => {
   test('formatted, unsorted', () => {
@@ -50,7 +75,13 @@ describe('Header serialization', () => {
   });
 });
 
+describe('JSON serialization', () => {
 
-test('JSON serialization', () => {
-  expect(toJson(data)).toEqual('{"br":200,"bs":true,"cid":"content-id","com.example-exists":true,"com.example-hello":"world","com.example-testing":1234,"com.example-token":"s","d":325,"mtp":10000,"nor":"..%2Ftesting%2F3.m4v","nrr":"0-99","sid":"session-id"}');
+  test('json', () => {
+    expect(toJson(data)).toEqual('{"br":200,"bs":true,"cid":"content-id","com.example-exists":true,"com.example-hello":"world","com.example-testing":1234,"com.example-token":"s","d":325,"mtp":10000,"nor":"..%2Ftesting%2F3.m4v","nrr":"0-99","sid":"session-id"}');
+  });
+
+  test('empty', () => {
+    expect(toJson(null)).toEqual('{}');
+  });
 });

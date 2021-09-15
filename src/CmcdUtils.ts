@@ -23,7 +23,7 @@ export function uuid(): string {
   return (`${1e7}-${1e3}-${4e3}-${8e3}-${1e11}`).replace(/[018]/g, (c: any) => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16));
 }
 
-function serialize(obj: any, { format = true, sort = false }: Partial<CmcdEncodeOptions> = {}) {
+export function serialize(obj: any, { format = true, sort = false }: Partial<CmcdEncodeOptions> = {}) {
   try {
     return processData(obj, {
       format,
@@ -51,9 +51,9 @@ function serialize(obj: any, { format = true, sort = false }: Partial<CmcdEncode
   }
 }
 
-type ProcessOptions = CmcdEncodeOptions & { map?: (value: any, key?: string, obj?: any) => any; };
+type ProcessOptions = CmcdEncodeOptions & { map: (value: any, key?: string, obj?: any) => any; };
 
-function processData(obj: any, { format = true, sort = true, map }: Partial<ProcessOptions> = {}): any {
+function processData(obj: any, { format = true, sort = true, map }: Partial<ProcessOptions>): any {
   const results = [];
 
   Object
@@ -83,7 +83,7 @@ function processData(obj: any, { format = true, sort = true, map }: Partial<Proc
         }
       }
 
-      const result = (map) ? map(value, key, obj) : [key, value];
+      const result = map(value, key, obj);
 
       // sort inline
       if (sort) {
