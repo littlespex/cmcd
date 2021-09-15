@@ -9,8 +9,8 @@
       CmcdStreamType,
       toHeaders,
       toJson,
-      toQuery
-    } from './dist/cmcd.min.js';
+      toQuery,
+    } from './dist/cmcd.js';
 
     const data = new Cmcd();
     data.sid = '9f7f349b-baba-43d7-bbe7-b0dc8a65af0d';
@@ -21,6 +21,7 @@
     data.bs = true;
     data.br = 200;
     data.ot = CmcdObjectType.MANIFEST;
+    data.nor = '../testing.m4s';
 
     const query = toQuery(data);
     console.log(query);
