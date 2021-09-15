@@ -13,10 +13,11 @@
     "test": "jest",
     "build": "tsc",
     "bundle": "rollup dist/types/index.js -o dist/cmcd.js -m",
-    "minify": "terser dist/cmcd.js -c -m --source-map url=cmcd.min.js.map -o dist/cmcd.min.js",
+    "minify": "terser dist/cmcd.js -c -m --mangle-props regex=/_$/ --source-map url=cmcd.min.js.map -o dist/cmcd.min.js",
     "docs": "typedoc",
     "release": "npm run build && npm run bundle && npm run minify",
-    "prepublishOnly": "npm run release"
+    "prepublishOnly": "npm run release",
+    "start": "npx --yes http-server"
   },
   "author": "Casey Occhialini",
   "license": "ISC",
