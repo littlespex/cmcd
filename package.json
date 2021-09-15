@@ -1,6 +1,6 @@
 {
   "name": "cmcd.js",
-  "version": "0.4.0",
+  "version": "0.4.1",
   "description": "CMCD (Common Media Client Data) Library with Typescript definitions",
   "main": "dist/cmcd.min.js",
   "types": "dist/types/index.d.ts",
