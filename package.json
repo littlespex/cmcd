@@ -1,13 +1,20 @@
 {
-  "name": "cmcd-ts",
-  "version": "0.3.1",
-  "description": "CMCD Typescript Library",
+  "name": "cmcd.js",
+  "version": "0.3.2",
+  "description": "CMCD (Common Media Client Data) Library with Typescript definitions",
   "main": "dist/cmcd.min.js",
   "types": "dist/types/index.d.ts",
   "type": "module",
   "files": [
     "dist/cmcd*",
     "dist/types/**/*.d.ts"
+  ],
+  "keywords": [
+    "cmcd",
+    "javascript",
+    "js",
+    "typescript",
+    "ts"
   ],
   "scripts": {
     "test": "jest",
@@ -17,7 +24,8 @@
     "docs": "typedoc",
     "release": "npm run build && npm run bundle && npm run minify",
     "prepublishOnly": "npm run release",
-    "start": "npx --yes http-server"
+    "start": "npx --yes http-server",
+    "ver": "npm --no-git-tag-version version --"
   },
   "author": "Casey Occhialini",
   "license": "ISC",
