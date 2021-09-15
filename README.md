@@ -1,9 +1,9 @@
-# cmcd-ts
-CMCD (Common Media Client Data) Typescript definitions.
+# cmcd.js
+CMCD (Common Media Client Data) library with Typescript definitions.
 
 ## Install
 ```shell
-npm i cmcd-ts
+npm i cmcd.js
 ```
 
 ## Usage
@@ -59,4 +59,4 @@ console.log(json);
 - Overview: https://www.youtube.com/watch?v=sWuQ3RZ6R5w&list=PLVztGGxiGfIhBmyFhixteZKJvWC3KlaSf&index=5
 
 ## Docs
-https://littlespex.github.io/cmcd-ts/
+https://littlespex.github.io/cmcd.js/
