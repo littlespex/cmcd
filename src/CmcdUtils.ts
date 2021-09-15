@@ -108,7 +108,10 @@ export function toHeaders(cmcd: Partial<Cmcd>, options?: Partial<CmcdEncodeOptio
   const entries = Object.entries(cmcd);
   Object.entries(CmcdShards).forEach(([shard, props]) => {
     const shards = entries.filter(entry => props.includes(entry[0]));
-    headers[`cmcd-${shard}`] = serialize(Object.fromEntries(shards), options);
+    const value = serialize(Object.fromEntries(shards), options);
+    if (value) {
+      headers[`cmcd-${shard}`] = value;
+    }
   });
 
   return headers;
@@ -125,6 +128,9 @@ export function toQuery(cmcd: Partial<Cmcd>, options?: Partial<CmcdEncodeOptions
  * Convert a CMCD data object to JSON
  */
 export function toJson(cmcd: Partial<Cmcd>, options?: Partial<CmcdEncodeOptions>) {
-  const data = processData(cmcd, options);
+  const data = processData(cmcd, {
+    ...options,
+    map: (value, key) => [key, typeof value == 'symbol' ? value.description : value],
+  });
   return JSON.stringify(Object.fromEntries(data));
 };
