@@ -1,6 +1,6 @@
 {
   "name": "cmcd.js",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "CMCD (Common Media Client Data) Library with Typescript definitions",
   "main": "dist/cmcd.min.js",
   "types": "dist/types/index.d.ts",
@@ -30,15 +30,15 @@
   "author": "Casey Occhialini",
   "license": "ISC",
   "devDependencies": {
-    "@types/jest": "^27.0.1",
-    "crypto": "^1.0.1",
-    "jest": "^27.2.0",
-    "rollup": "^2.56.3",
-    "terser": "^5.8.0",
-    "ts-jest": "^27.0.5",
-    "tslib": "^2.3.1",
-    "typedoc": "^0.22.3",
-    "typescript": "^4.4.3"
+    "@types/jest": "27.0.2",
+    "crypto": "1.0.1",
+    "jest": "27.3.1",
+    "rollup": "2.59.0",
+    "terser": "5.9.0",
+    "ts-jest": "27.0.7",
+    "tslib": "2.3.1",
+    "typedoc": "0.22.7",
+    "typescript": "4.4.4"
   },
   "jest": {
     "testEnvironment": "jsdom",
