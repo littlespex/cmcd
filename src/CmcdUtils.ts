@@ -1,6 +1,5 @@
 import { Cmcd } from './Cmcd';
 import { CmcdEncodeOptions } from './CmcdEncodeOptions';
-import { CmcdShards } from './CmcdShards';
 
 const isValid = (value: any) => value != null && value !== '' && value !== false;
 const toHundred = (value: number) => Math.round(value / 100) * 100;
@@ -103,14 +102,26 @@ function processData(obj: any, { format = true, sort = true, map }: Partial<Proc
  * Convert a CMCD data object to request headers
  */
 export function toHeaders(cmcd: Partial<Cmcd>, options?: Partial<CmcdEncodeOptions>) {
-  const headers = {};
-
   const entries = Object.entries(cmcd);
-  Object.entries(CmcdShards).forEach(([shard, props]) => {
-    const shards = entries.filter(entry => props.includes(entry[0]));
-    const value = serialize(Object.fromEntries(shards), options);
+  const headers = {};
+  const headerNames = ['Object', 'Request', 'Session', 'Status'];
+  const headerGroups = [{}, {}, {}, {}];
+  const headerMap = {
+    br: 0, d: 0, ot: 0, tb: 0,
+    bl: 1, dl: 1, mtp: 1, nor: 1, nrr: 1, su: 1,
+    cid: 2, pr: 2, sf: 2, sid: 2, st: 2, v: 2,
+    bs: 3, rtp: 3,
+  };
+
+  entries.forEach(([key, value]) => {
+    const index = (headerMap[key] != null) ? headerMap[key] : 1;
+    headerGroups[index][key] = value;
+  });
+
+  headerGroups.forEach((group, index) => {
+    const value = serialize(headerGroups[index]);
     if (value) {
-      headers[`cmcd-${shard}`] = value;
+      headers[`CMCD-${headerNames[index]}`] = value;
     }
   });
 
