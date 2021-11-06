@@ -145,3 +145,23 @@ export function toJson(cmcd: Partial<Cmcd>, options?: Partial<CmcdEncodeOptions>
   });
   return JSON.stringify(Object.fromEntries(data));
 };
+
+/**
+ * Append CMCD query args to a URL.
+ */
+export function appendToUrl(url: string, cmcd: Partial<Cmcd>) {
+  const query = toQuery(cmcd);
+  if (!query) {
+    return url;
+  }
+
+  const separator = url.includes('?') ? '&' : '?';
+  return `${url}${separator}${query}`;
+}
+
+/**
+ * Append CMCD query args to a header object.
+ */
+export function appendToHeaders(headers: Record<string, string>, cmcd: Partial<Cmcd>) {
+  return Object.assign(headers, toHeaders(cmcd));
+}
