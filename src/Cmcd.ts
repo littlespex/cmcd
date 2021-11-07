@@ -1,11 +1,18 @@
 import { CmcdObjectType } from './CmcdObjectType';
 import { CmcdStreamingFormat } from './CmcdStreamingFormat';
 import { CmcdStreamType } from './CmcdStreamType';
+import { CmcdValue } from './CmcdValue';
 
 /**
  * CMCD
  */
-export class Cmcd {
+export interface Cmcd {
+
+  /**
+   * Custom key names may be used, but they MUST carry a hyphenated prefix to ensure that there will not be a namespace collision
+   * with future revisions to this specification. Clients SHOULD use a reverse-DNS syntax when defining their own prefix.
+   */
+  [index: `${string}-${string}`]: CmcdValue;
 
   /////////////////
   // CMCD Object //
@@ -20,7 +27,7 @@ export class Cmcd {
    *
    * Integer kbps
    */
-  br: number;
+  br?: number;
 
   /**
    * Object duration
@@ -31,7 +38,7 @@ export class Cmcd {
    * 
    * Integer milliseconds
    */
-  d: number;
+  d?: number;
 
   /**
    * Object type
@@ -49,7 +56,7 @@ export class Cmcd {
    * 
    * If the object type being requested is unknown, then this key MUST NOT be used.
    */
-  ot: CmcdObjectType;
+  ot?: CmcdObjectType;
 
   /**
    * Top bitrate
@@ -59,7 +66,7 @@ export class Cmcd {
    * 
    * Integer Kbps
    */
-  tb: number;
+  tb?: number;
 
   //////////////////
   // CMCD Request //
@@ -72,7 +79,7 @@ export class Cmcd {
    * 
    * Integer milliseconds
    */
-  bl: number;
+  bl?: number;
 
   /**
    * Deadline
@@ -83,7 +90,7 @@ export class Cmcd {
    * 
    * Integer milliseconds
    */
-  dl: number;
+  dl?: number;
 
   /**
    * Measured mtp CMCD throughput
@@ -95,7 +102,7 @@ export class Cmcd {
    * 
    * Integer kbps
    */
-  mtp: number;
+  mtp?: number;
 
   /**
    * Next object request
@@ -106,7 +113,7 @@ export class Cmcd {
    * 
    * String
    */
-  nor: string;
+  nor?: string;
 
   /**
    * Next range request
@@ -122,7 +129,7 @@ export class Cmcd {
    * 
    * String
    */
-  nrr: string;
+  nrr?: string;
 
   /**
    * Startup
@@ -132,7 +139,7 @@ export class Cmcd {
    * 
    * Boolean
    */
-  su: boolean;
+  su?: boolean;
 
   //////////////////
   // CMCD Session //
@@ -146,7 +153,7 @@ export class Cmcd {
    * 
    * String
    */
-  cid: string;
+  cid?: string;
 
   /**
    * Playback rate
@@ -155,7 +162,7 @@ export class Cmcd {
    * 
    * Decimal
    */
-  pr: number;
+  pr?: number;
 
   /**
    * Streaming format
@@ -169,7 +176,7 @@ export class Cmcd {
    * 
    * If the streaming format being requested is unknown, then this key MUST NOT be used.
    */
-  sf: CmcdStreamingFormat;
+  sf?: CmcdStreamingFormat;
 
   /**
    * Session ID
@@ -179,14 +186,14 @@ export class Cmcd {
    * 
    * String
    */
-  sid: string;
+  sid?: string;
 
   /**
    * Stream type
    * - `v` = all segments are available – e.g., VOD
    * - `l` = segments become available over time – e.g., LIVE
    */
-  st: CmcdStreamType;
+  st?: CmcdStreamType;
 
   /**
    * CMCD version
@@ -196,7 +203,7 @@ export class Cmcd {
    * 
    * Integer
    */
-  v: number;
+  v?: number;
 
   /////////////////
   // CMCD Status //
@@ -214,7 +221,7 @@ export class Cmcd {
    * 
    * Boolean
    */
-  bs: boolean;
+  bs?: boolean;
 
   /**
    * Requested maximum throughput
@@ -229,5 +236,5 @@ export class Cmcd {
    * 
    * Integer kbps
    */
-  rtp: number;
+  rtp?: number;
 }

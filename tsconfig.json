@@ -1,11 +1,17 @@
 {
   "compilerOptions": {
     "declaration": true,
+    "declarationMap": true,
     "esModuleInterop": true,
     "importHelpers": true,
     "incremental": true,
+    "isolatedModules": true,
     "module": "esnext",
     "moduleResolution": "node",
+    "noImplicitAny": true,
+    "noImplicitOverride": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
     "outDir": "dist/types",
     "sourceMap": true,
     "target": "esnext"
