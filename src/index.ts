@@ -1,4 +1,5 @@
 export * from './Cmcd';
+export * from './CmcdCustomKey';
 export * from './CmcdHeader';
 export * from './CmcdKey';
 export * from './CmcdObjectType';

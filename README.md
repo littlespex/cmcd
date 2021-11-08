@@ -7,11 +7,12 @@ npm i cmcd.js
 ```
 
 ## Usage
-All CMCD properties are optional. Properties that are with nullish values will not be serialized.
+All CMCD properties are optional. Properties that with nullish values will not be serialized.
 
 ```typescript
 import {
   Cmcd,
+  CmcdHeaader,
   CmcdObjectType,
   CmcdStreamingFormat,
   CmcdStreamType,
@@ -41,10 +42,10 @@ const headers = toHeaders(data);
 console.log(headers);
 /*
 {
-  'cmcd-request': 'mtp=10000',
-  'cmcd-object': 'br=200,ot=m',
-  'cmcd-session': 'sf=d,cid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",st=v',
-  'cmcd-status': 'bs',
+  'CMCD-Object': 'br=200,ot=m',
+  'CMCD-Request': 'mtp=10000',
+  'CMCD-Session': 'sf=d,cid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",st=v',
+  'CMCD-Status': 'bs',
 }
 */
 
@@ -52,6 +53,30 @@ const json = toJson(data);
 console.log(json);
 /*
 '{"mtp":10000,"su":false,"br":200,"ot":"m","sf":"d","cid":"9f7f349b-baba-43d7-bbe7-b0dc8a65af0d","st":"v","bs":true}'
+*/
+
+/* Custom Fields */
+data['com.example-a'] = 'hello';
+data['com.example-b']: 1234;
+data['com.example-c']: true;
+data['com.example-d']: Symbol('s');
+
+const headerMap = {
+  ['com.example-a']: CmcdHeader.Object,
+  ['com.example-b']: CmcdHeader.Session,
+  ['com.example-c']: CmcdHeader.Status,
+  // Unmapped custom fields are added to the CMCD-Request header
+};
+
+const headers = toHeaders(data, headerMap);
+console.log(headers);
+/*
+{
+  'CMCD-Object': 'br=200,com.example-a="hello",ot=m',
+  'CMCD-Request': 'mtp=10000',
+  'CMCD-Session': 'cid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",com.example-b=1234,sf=d,st=v',
+  'CMCD-Status': 'bs,com.example-c',
+}
 */
 ```
 
