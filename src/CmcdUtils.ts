@@ -1,4 +1,5 @@
 import { Cmcd } from './Cmcd';
+import { CmcdCustomKey } from './CmcdCustomKey';
 import { CmcdHeader } from './CmcdHeader';
 import { CmcdKey } from './CmcdKey';
 import { CmcdValue } from './CmcdValue';
@@ -31,8 +32,11 @@ export function serialize(obj: Cmcd) {
   return processData<string>(obj, (value, key) => {
     const type = typeof value;
 
-    if (type === 'string' && key !== 'ot' && key !== 'sf' && key !== 'st') {
-      return `${key}="${value.replace(/"/g, '\\"')}"`;
+    if (key === 'ot' || key === 'sf' || key === 'st') {
+      return `${key}=${value}`;
+    }
+    if (type === 'string') {
+      return `${key}=${JSON.stringify(value)}`;
     }
     else if (type === 'boolean') {
       return key;
@@ -89,7 +93,7 @@ function processData<T>(obj: Cmcd, map: Mapper<T>): T[] {
 /**
  * Convert a CMCD data object to request headers
  */
-export function toHeaders(cmcd: Cmcd) {
+export function toHeaders(cmcd: Cmcd, customHeaderMap: Record<CmcdCustomKey, CmcdHeader> = {}) {
   const headers: Record<string, string> = {};
 
   if (!cmcd) {
@@ -98,7 +102,7 @@ export function toHeaders(cmcd: Cmcd) {
 
   const entries = Object.entries(cmcd) as [CmcdKey, CmcdValue][];
   const headerGroups: Record<string, any>[] = [{}, {}, {}, {}];
-  const headerMap: Record<CmcdKey, number> = {
+  const headerMap: Record<CmcdKey, CmcdHeader> = {
     br: 0, d: 0, ot: 0, tb: 0,
     bl: 1, dl: 1, mtp: 1, nor: 1, nrr: 1, su: 1,
     cid: 2, pr: 2, sf: 2, sid: 2, st: 2, v: 2,
@@ -106,7 +110,11 @@ export function toHeaders(cmcd: Cmcd) {
   };
 
   entries.forEach(([key, value]) => {
-    const index = (headerMap[key] != null) ? headerMap[key] : 1;
+    let index = headerMap[key];
+    if (index == null) {
+      // @ts-ignore
+      index = customHeaderMap[key] != null ? customHeaderMap[key] : 1;
+    }
     headerGroups[index][key] = value;
   });
 
@@ -155,6 +163,6 @@ export function appendToUrl(url: string, cmcd: Cmcd) {
 /**
  * Append CMCD query args to a header object.
  */
-export function appendToHeaders(headers: Record<string, string>, cmcd: Cmcd) {
-  return Object.assign(headers, toHeaders(cmcd));
+export function appendToHeaders(headers: Record<string, string>, cmcd: Cmcd, customHeaderMap?: Record<CmcdCustomKey, CmcdHeader>) {
+  return Object.assign(headers, toHeaders(cmcd, customHeaderMap));
 }
