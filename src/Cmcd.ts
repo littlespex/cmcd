@@ -1,3 +1,4 @@
+import { CmcdCustomKey } from './CmcdCustomKey';
 import { CmcdObjectType } from './CmcdObjectType';
 import { CmcdStreamingFormat } from './CmcdStreamingFormat';
 import { CmcdStreamType } from './CmcdStreamType';
@@ -12,7 +13,7 @@ export interface Cmcd {
    * Custom key names may be used, but they MUST carry a hyphenated prefix to ensure that there will not be a namespace collision
    * with future revisions to this specification. Clients SHOULD use a reverse-DNS syntax when defining their own prefix.
    */
-  [index: `${string}-${string}`]: CmcdValue;
+  [index: CmcdCustomKey]: CmcdValue;
 
   /////////////////
   // CMCD Object //
