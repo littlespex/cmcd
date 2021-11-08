@@ -12,7 +12,7 @@ All CMCD properties are optional. Properties that with nullish values will not b
 ```typescript
 import {
   Cmcd,
-  CmcdHeaader,
+  CmcdHeader,
   CmcdObjectType,
   CmcdStreamingFormat,
   CmcdStreamType,
@@ -35,7 +35,7 @@ const data: Cmcd = {
 const query = toQuery(data);
 console.log(query);
 /* 
-'CMCD=br%3D200%2Cbs%2Cmtp%3D10000%2Cot%3Dm%2Csf%3Dd%2Ccid%3D%229f7f349b-baba-43d7-bbe7-b0dc8a65af0d%22%2Cst%3Dv'
+'CMCD=br%3D200%2Cbs%2Ccid%3D%229f7f349b-baba-43d7-bbe7-b0dc8a65af0d%22%2Cmtp%3D10000%2Cot%3Dm%2Csf%3Dd%2Cst%3Dv'
 */
 
 const headers = toHeaders(data);
@@ -44,38 +44,49 @@ console.log(headers);
 {
   'CMCD-Object': 'br=200,ot=m',
   'CMCD-Request': 'mtp=10000',
-  'CMCD-Session': 'sf=d,cid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",st=v',
-  'CMCD-Status': 'bs',
+  'CMCD-Session': 'cid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",sf=d,st=v',
+  'CMCD-Status': 'bs'
 }
 */
 
 const json = toJson(data);
 console.log(json);
 /*
-'{"mtp":10000,"su":false,"br":200,"ot":"m","sf":"d","cid":"9f7f349b-baba-43d7-bbe7-b0dc8a65af0d","st":"v","bs":true}'
+'{"br":200,"bs":true,"cid":"9f7f349b-baba-43d7-bbe7-b0dc8a65af0d","mtp":10000,"ot":"m","sf":"d","st":"v"}'
 */
 
-/* Custom Fields */
-data['com.example-a'] = 'hello';
-data['com.example-b']: 1234;
-data['com.example-c']: true;
-data['com.example-d']: Symbol('s');
+/**
+ * Custom Fields 
+ */
 
+data['com.example-a'] = 'hello';
+data['com.example-b'] = 1234;
+data['com.example-c'] = true;
+data['com.example-d'] = Symbol('s');
+
+console.log(toQuery(data));
+/*
+'CMCD=br%3D200%2Cbs%2Ccid%3D%229f7f349b-baba-43d7-bbe7-b0dc8a65af0d%22%2Ccom.example-a%3D%22hello%22%2Ccom.example-b%3D1234%2Ccom.example-c%2Ccom.example-d%3Ds%2Cmtp%3D10000%2Cot%3Dm%2Csf%3Dd%2Cst%3Dv'
+*/
+
+/**
+ * Custom fields can be mapped to specific headers by providing a mapping 
+ * object to the `toHeader` function. Unmapped custom fields are added to 
+ * the CMCD-Request header.
+ */
 const headerMap = {
   ['com.example-a']: CmcdHeader.Object,
   ['com.example-b']: CmcdHeader.Session,
   ['com.example-c']: CmcdHeader.Status,
-  // Unmapped custom fields are added to the CMCD-Request header
 };
 
-const headers = toHeaders(data, headerMap);
-console.log(headers);
+console.log(toHeaders(data, headerMap));
 /*
 {
   'CMCD-Object': 'br=200,com.example-a="hello",ot=m',
-  'CMCD-Request': 'mtp=10000',
+  'CMCD-Request': 'com.example-d=s,mtp=10000',
   'CMCD-Session': 'cid="9f7f349b-baba-43d7-bbe7-b0dc8a65af0d",com.example-b=1234,sf=d,st=v',
-  'CMCD-Status': 'bs,com.example-c',
+  'CMCD-Status': 'bs,com.example-c'
 }
 */
 ```
