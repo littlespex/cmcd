@@ -128,8 +128,8 @@ export function decode(cmcd: string): Cmcd {
 }
 
 /**
-	 * Convert a CMCD data object to request headers
-	 */
+ * Convert a CMCD data object to request headers
+ */
 export function toHeaders(cmcd: Cmcd, customHeaderMap: Record<CmcdCustomKey, CmcdHeader> = {}) {
 	const headers: Record<string, string> = {};
 
@@ -160,18 +160,18 @@ export function toHeaders(cmcd: Cmcd, customHeaderMap: Record<CmcdCustomKey, Cmc
 }
 
 /**
-	 * Convert a CMCD data object to query args
-	 */
+ * Convert a CMCD data object to query args
+ */
 export function toQuery(cmcd: Cmcd) {
 	if (!cmcd) {
 		return '';
 	}
-	return `CMCD=${encodeURIComponent(encode(cmcd))}`;
+	return `CMCD=${toUrlSafe(encode(cmcd))}`;
 }
 
 /**
-	 * Convert a CMCD data object to JSON
-	 */
+ * Convert a CMCD data object to JSON
+ */
 export function toJson(cmcd: Partial<Cmcd>) {
 	const toValue = (value: CmcdValue) => typeof value == 'symbol' ? value.description : value;
 	const data = processData(cmcd, (value, key) => [key, toValue(value)]);
@@ -179,8 +179,8 @@ export function toJson(cmcd: Partial<Cmcd>) {
 }
 
 /**
-	 * Append CMCD query args to a URL.
-	 */
+ * Append CMCD query args to a URL.
+ */
 export function appendToUrl(url: string, cmcd: Cmcd) {
 	const query = toQuery(cmcd);
 	if (!query) {
@@ -192,8 +192,8 @@ export function appendToUrl(url: string, cmcd: Cmcd) {
 }
 
 /**
-	 * Append CMCD query args to a header object.
-	 */
+ * Append CMCD query args to a header object.
+ */
 export function appendToHeaders(headers: Record<string, string>, cmcd: Cmcd, customHeaderMap?: Record<CmcdCustomKey, CmcdHeader>) {
 	return Object.assign(headers, toHeaders(cmcd, customHeaderMap));
 }
