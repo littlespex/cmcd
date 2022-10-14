@@ -11,4 +11,4 @@ export enum CmcdObjectType {
   TIMED_TEXT = "tt",
   KEY = "k",
   OTHER = "o",
-};
+}

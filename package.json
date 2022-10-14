@@ -1,53 +1,54 @@
 {
-  "name": "cmcd.js",
-  "version": "0.6.2",
-  "description": "CMCD (Common Media Client Data) library with Typescript definitions",
-  "main": "dist/cmcd.min.js",
-  "types": "dist/types/index.d.ts",
-  "type": "module",
-  "files": [
-    "dist/cmcd*",
-    "dist/types/**/*.d.ts"
-  ],
-  "keywords": [
-    "cmcd",
-    "javascript",
-    "js",
-    "typescript",
-    "ts"
-  ],
-  "scripts": {
-    "test": "jest --coverage",
-    "build": "tsc",
-    "bundle": "rollup dist/types/index.js -o dist/cmcd.js -m",
-    "minify": "terser dist/cmcd.js -c -m --mangle-props regex=/_$/ --source-map url=cmcd.min.js.map -o dist/cmcd.min.js",
-    "docs": "typedoc",
-    "release": "npm run build && npm run bundle && npm run minify",
-    "prepublishOnly": "npm run release",
-    "start": "npx --yes http-server",
-    "ver": "npm --no-git-tag-version version --"
-  },
-  "author": "Casey Occhialini",
-  "license": "ISC",
-  "devDependencies": {
-    "@types/jest": "27.0.2",
-    "crypto": "1.0.1",
-    "jest": "27.3.1",
-    "rollup": "2.59.0",
-    "terser": "5.9.0",
-    "ts-jest": "27.0.7",
-    "tslib": "2.3.1",
-    "typedoc": "^0.22.8",
-    "typescript": "4.4.4"
-  },
-  "jest": {
-    "testEnvironment": "jsdom",
-    "testPathIgnorePatterns": [
-      "/node_modules/",
-      ".jsx?$"
-    ],
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    }
-  }
+	"name": "cmcd.js",
+	"version": "0.7.0",
+	"description": "CMCD (Common Media Client Data) library with Typescript definitions",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"type": "module",
+	"files": [
+		"dist/*"
+	],
+	"keywords": [
+		"cmcd",
+		"javascript",
+		"js",
+		"typescript",
+		"ts"
+	],
+	"scripts": {
+		"lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
+		"fix": "npm run lint -- --fix",
+		"test": "npm run lint && jest --coverage",
+		"build": "tsc",
+		"bundle": "rollup dist/types/index.js -o dist/cmcd.js -m",
+		"minify": "terser dist/cmcd.js -c -m --mangle-props regex=/_$/ --source-map url=cmcd.min.js.map -o dist/cmcd.min.js",
+		"docs": "typedoc",
+		"release": "npm run build && npm run bundle && npm run minify",
+		"prepublishOnly": "npm run release",
+		"start": "npx --yes http-server",
+		"ver": "npm --no-git-tag-version version --"
+	},
+	"author": "Casey Occhialini",
+	"license": "ISC",
+	"devDependencies": {
+		"@types/jest": "29.1.2",
+		"@typescript-eslint/eslint-plugin": "5.40.0",
+		"@typescript-eslint/parser": "5.40.0",
+		"eslint": "8.25.0",
+		"jest": "29.2.0",
+		"ts-jest": "29.0.3",
+		"tslib": "2.4.0",
+		"typedoc": "0.23.16",
+		"typescript": "4.8.4"
+	},
+	"jest": {
+		"testEnvironment": "jsdom",
+		"testPathIgnorePatterns": [
+			"/node_modules/",
+			".jsx?$"
+		],
+		"transform": {
+			"^.+\\.tsx?$": "ts-jest"
+		}
+	}
 }
