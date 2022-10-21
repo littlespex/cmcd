@@ -2,6 +2,6 @@
  * CMCD Streaming Type
  */
 export enum CmcdStreamType {
-  VOD = "v",
-  LIVE = "l",
+	VOD = "v",
+	LIVE = "l",
 }
