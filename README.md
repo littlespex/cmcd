@@ -1,3 +1,6 @@
+> **Warning**
+> This repository has been archived. Please use [@svta.org/common-media-library](https://github.com/streaming-video-technology-alliance/common-media-library).
+
 # cmcd.js
 CMCD (Common Media Client Data) library with Typescript definitions.
 
